@@ -1,0 +1,440 @@
+<html>
+  <head>
+    <style>
+      :root{
+        --navy:#102E50;
+        --gold:#F5C45E;
+        --amber:#E78B48;
+        --brick:#BE3D2A;
+        --white:#ffffff;
+        --soft:#f6f8fb;
+      }
+      *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+      body{background:var(--soft);color:var(--navy);line-height:1.6;}
+      a{text-decoration:none;color:inherit;}
+      img{max-width:100%;display:block;}
+
+      .container{width:100%;max-width:1200px;margin:auto;padding:0 20px;}
+      section{padding:80px 0;}
+
+      /* NAVBAR */
+      nav{position:sticky;top:0;background:var(--navy);z-index:1000;}
+      .nav-wrap{display:flex;align-items:center;justify-content:space-between;height:70px;}
+      .logo{font-size:22px;font-weight:700;color:var(--gold);}
+      .nav-links{display:flex;gap:28px;}
+      .nav-links a{color:var(--white);font-weight:500;}
+      .nav-links a:hover{color:var(--gold);}
+
+      /* HERO */
+      .hero{background:linear-gradient(135deg,var(--navy),#081c33);color:white;}
+      .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:50px;align-items:center;}
+      .hero h1{font-size:48px;line-height:1.2;margin-bottom:20px;}
+      .hero p{opacity:.9;margin-bottom:30px;}
+      .hero .cta{display:inline-block;background:var(--gold);color:var(--navy);padding:14px 34px;border-radius:40px;font-weight:700;}
+      .hero-art{display:flex;justify-content:center;}
+
+      /* SECTION HEAD */
+      .sec-head{text-align:center;margin-bottom:60px;}
+      .sec-head h2{font-size:36px;margin-bottom:10px;}
+      .sec-head p{opacity:.7;}
+
+      /* SERVICES GRID */
+      .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px;}
+      .service-card{background:white;border-radius:18px;padding:30px;box-shadow:0 20px 40px rgba(0,0,0,.08);transition:.3s;}
+      .service-card:hover{transform:translateY(-6px);}
+      .service-card h3{margin-bottom:12px;}
+
+      /* JOIN PAGE */
+      .join-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;}
+      .join-points li{margin-bottom:14px;}
+      .join-point-card{background:white;border-radius:16px;padding:24px;box-shadow:0 18px 35px rgba(0,0,0,.08);transition:.3s;display:flex;align-items:center;gap:12px;font-weight:600;}
+      form{background:white;padding:40px;border-radius:20px;box-shadow:0 25px 50px rgba(0,0,0,.08);}
+      form input,form textarea{width:100%;padding:14px;margin-bottom:16px;border-radius:10px;border:1px solid #ddd;}
+      form button{background:var(--amber);color:white;border:none;padding:14px 30px;border-radius:30px;font-weight:700;cursor:pointer;}
+
+      /* CONTACT */
+      .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;}
+      .contact-box{background:white;border-radius:20px;padding:40px;box-shadow:0 25px 50px rgba(0,0,0,.08);}
+
+      /* FOOTER */
+      footer{background:#081c33;color:white;padding:30px 0;text-align:center;font-size:14px;}
+
+      /* RESPONSIVE */
+      @media(max-width:900px){
+        .hero-grid,.join-grid,.contact-grid{grid-template-columns:1fr;}
+        .hero h1{font-size:38px;}
+      }
+      @media(max-width:500px){
+        .hero h1{font-size:32px;}
+        section{padding:60px 0;}
+      }
+      .hero-actions{
+        display:flex;
+        gap:16px;
+        flex-wrap:wrap;
+        margin-top:32px;
+      }
+
+      .btn{
+        padding:14px 28px;
+        border-radius:8px;
+        font-weight:600;
+        text-decoration:none;
+        transition:all .3s ease;
+      }
+
+      .btn-primary{
+        background:#F5C45E;
+        color:#102E50;
+      }
+
+      .btn-primary:hover{
+        background:#e8b84f;
+        transform:translateY(-2px);
+      }
+
+      .btn-outline{
+        border:2px solid #F5C45E;
+        color:#F5C45E;
+        background:transparent;
+      }
+
+      .btn-outline:hover{
+        background:#F5C45E;
+        color:#102E50;
+      }
+
+      .service-card{
+        transition:transform .3s ease, box-shadow .3s ease;
+      }
+
+      .service-card:hover{
+        transform:translateY(-6px);
+        box-shadow:0 12px 30px rgba(0,0,0,.15);
+      }
+
+      .lead-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+        z-index: 9999;
+      }
+
+      .lead-modal.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .lead-modal-content {
+        position: relative;
+        background: #fff;
+        color: #102E50;
+        padding: 36px 28px 28px;
+        border-radius: 18px;
+        width: 100%;
+        max-width: 380px;
+      }
+
+
+      @keyframes popup {
+        from { transform: scale(0.9); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .close-btn {
+        position:relative;
+        right: 10px;
+        left: 2px;
+
+        width: 5px;
+        height: 28px;
+
+        background: #f1f3f6;
+        border: none;
+        border-radius: 6px; /* square with soft edges */
+
+        color: #102E50;
+        font-size: 20px;
+        font-weight: 800;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.15s ease;
+      }
+
+      .close-btn:hover {
+        background: #e4e7ec;
+        transform: scale(1.05);
+      }
+
+      .lead-modal-content input,
+      .lead-modal-content select {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+      }
+
+      .lead-modal-content button {
+        width: 100%;
+        padding: 12px;
+        background: #F5C45E;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #sub{
+        color: white;
+      }
+      </style>
+  </head>
+  <body>
+    <!-- ===============================
+    HOME PAGE (index.html)
+    ================================= -->
+    <nav>
+      <div class="container nav-wrap">
+        <div class="logo">Wealth Lanka Security</div>
+        <div class="nav-links">
+          <a href="#">Home</a>
+          <a href="#services">Services</a>
+          <a href="#join">Join</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <h1>WEALTH LANKA SECURITY SERVICE & CONSULTATION (PVT) LTD</h1>
+          <h2>for Best Security Solutions You Can Trust</h2>
+          <p>Professional manpower, advanced protection and disciplined operations for modern Sri Lanka.</p>
+          <div class="hero-actions">
+            <a href="#services" class="btn btn-primary">
+              Need Security Service
+            </a>
+            <a href="#join" class="btn btn-outline">
+              Join as a Security Officer
+            </a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <img src="security-officer.png" alt="Security officer">
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="sec-head">
+          <h2>Our Core Services</h2>
+          <p>Strategically designed for safety and control</p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card"><h3>Manpower Security</h3><p>Highly trained guards for institutes, factories, sites & facilities.</p></div>
+          <div class="service-card"><h3>Event Security</h3><p>End‑to‑end crowd and risk management.</p></div>
+          <div class="service-card"><h3>VIP Protection</h3><p>Discreet elite-level personal security.</p></div>
+          <div class="service-card"><h3>Cleaning Service</h3><p>Professional residential and commercial cleaning services delivered
+        by trained, reliable, and background-verified staff.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===============================
+    JOIN WITH US PAGE
+    ================================= -->
+    <section id="join">
+      <div class="container join-grid">
+        <div>
+          <h2>Build Your Career With Us</h2>
+          <p>Join a disciplined, respected and fast-growing security force.</p>
+          <ul class="join-points">
+            <li class="join-point-card">✔ Professional Training</li>
+            <li class="join-point-card">✔ Stable Monthly Income</li>
+            <li class="join-point-card">✔ Career Growth Opportunities</li>
+            <li class="join-point-card">✔ Respect & Recognition</li>
+          </ul>
+        </div>
+        <form id="joinform" action="backend/save_join.php" method="post">
+          <h3>Apply Now</h3>
+          <input name="name" type="text" placeholder="Full Name">
+          <input name="mobile" type="tel" placeholder="Contact Number">
+          <input name="email" type="email" placeholder="Email">
+          <textarea name="reason" rows="4" placeholder="Why do you want to join?"></textarea>
+          <button>Apply</button>
+        </form>
+        <p id="joinMsg"></p>
+      </div>
+    </section>
+
+    <!-- ===============================
+    CONTACT PAGE
+    ================================= -->
+    <section id="contact">
+      <div class="container contact-grid">
+        <div class="contact-box">
+          <h2>Contact Information</h2>
+          <p><strong>Phone:</strong> 0774959401 | 0352232979</p>
+          <p><strong>Email:</strong> wealthlankasc@gmail.com</p>
+          <p><strong>Location:</strong> f/51, Batahena, Ranwala, Kegalle.</p>
+        </div>
+        <form>
+          <h3>Send a Message</h3>
+          <input type="text" placeholder="Your Name">
+          <input type="email" placeholder="Your Email">
+          <textarea rows="5" placeholder="Your Message"></textarea>
+          <button>Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Wealth Lanka Security Service & Consultation (pvt) Ltd. All Rights Reserved.
+    </footer>
+    <div class="lead-modal" id="leadModal">
+    <div class="lead-modal-content">
+      <button class="close-btn" onclick="closeLeadPopup()">x</button>
+
+      <center><h3>We’ll contact you shortly</h3></center>
+      <form id="leadForm" action="backend/save_lead.php" method="post">
+        <input name="name" type="text" placeholder="Your Name" required />
+        <input name="mobile" type="tel" placeholder="Mobile Number" required />
+
+        <select name="interest" required>
+          <option value="">I am interested in</option>
+          <option value="service">Security Service</option>
+          <option value="join">Joining as Security Officer</option>
+        </select>
+
+        <button type="submit" id="sub">Send Request</button>
+      </form>
+      <p id="leadMsg"></p>
+      <small>
+        By submitting, you agree to receive a call or SMS.
+      </small>
+    </div>
+    </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===============================
+     LEAD POPUP CONTROL
+  ================================ */
+  const leadModal = document.getElementById("leadModal");
+
+  function openLeadPopup() {
+    if (leadModal) leadModal.classList.add("show");
+  }
+
+  function closeLeadPopup() {
+    if (leadModal) leadModal.classList.remove("show");
+  }
+
+  // Expose close function for your onclick button
+  window.closeLeadPopup = closeLeadPopup;
+
+  // Auto-open once per session
+  if (leadModal && !sessionStorage.getItem("leadPopupShown")) {
+    setTimeout(() => {
+      openLeadPopup();
+      sessionStorage.setItem("leadPopupShown", "true");
+    }, 1200);
+  }
+
+  /* ===============================
+     LEAD FORM AJAX
+  ================================ */
+  const leadForm = document.getElementById("leadForm");
+  const leadMsg  = document.getElementById("leadMsg");
+
+  if (leadForm) {
+    leadForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(leadForm);
+
+      fetch("backend/save_lead.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(text => {
+        const data = text.trim();
+        if (leadMsg) {
+          if (data === "success") {
+            leadMsg.textContent = "Thank you! We will contact you shortly.";
+            leadMsg.style.color = "green";
+          } else {
+            leadMsg.textContent = "Error: " + data;
+            leadMsg.style.color = "red";
+          }
+        }
+
+        if (data === "success") {
+          leadForm.reset();
+          setTimeout(closeLeadPopup, 1200);
+        }
+      })
+      .catch(() => {
+        if (leadMsg) {
+          leadMsg.textContent = "Server error. Please try again.";
+          leadMsg.style.color = "red";
+        }
+      });
+    });
+  }
+
+  /* ===============================
+     JOIN FORM AJAX
+  ================================ */
+  const joinForm = document.getElementById("joinForm");
+  const joinMsg  = document.getElementById("joinMsg");
+
+  if (joinForm) {
+    joinForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(joinForm);
+
+      fetch("backend/save_join.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(text => {
+        const data = text.trim();
+        if (joinMsg) {
+          if (data === "success") {
+            joinMsg.textContent = "Application submitted successfully.";
+            joinMsg.style.color = "green";
+          } else {
+            joinMsg.textContent = "Error: " + data;
+            joinMsg.style.color = "red";
+          }
+        }
+        if (data === "success") joinForm.reset();
+      })
+      .catch(() => {
+        if (joinMsg) {
+          joinMsg.textContent = "Server error. Please try again.";
+          joinMsg.style.color = "red";
+        }
+      });
+    });
+  }
+});
+</script>
+  </body>
+</html>

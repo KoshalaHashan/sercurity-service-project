@@ -1,0 +1,5 @@
+{
+  "require": {
+    "notifylk/notify-php": "*@dev"
+  }
+}
